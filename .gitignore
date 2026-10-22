@@ -1,0 +1,11 @@
+# Local files and generated release archives
+/dist/
+/artwork-source/
+/previews/
+**/__pycache__/
+*.py[cod]
+.venv/
+*.local*
+.DS_Store
+.idea/
+.vscode/

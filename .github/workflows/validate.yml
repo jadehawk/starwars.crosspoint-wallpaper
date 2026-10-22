@@ -1,0 +1,43 @@
+name: Validate Wallpaper Packs
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate each installable collection and host tools
+        run: |
+          python tools/wallpaper_pack_tool.py validate --root .
+          python -m compileall -q tools
+          if [ -d tests ]; then python -m unittest discover -s tests -q; fi
+      - name: Package each collection separately and check archive contents
+        run: |
+          python tools/wallpaper_pack_tool.py pack-all --root . --output-dir dist
+          python - <<'PY'
+          import json
+          import zipfile
+          from pathlib import Path
+          packs = [x for x in Path('.').iterdir() if x.is_dir() and
+                   x.name.endswith('.crosspoint-wallpaper') and (x / 'manifest.json').is_file()]
+          assets = list(Path('dist').glob('*.crosspoint-wallpaper.zip'))
+          assert len(assets) == len(packs), "one asset required for each pack"
+          for pack in packs:
+              manifest = json.loads((pack / 'manifest.json').read_text(encoding='utf-8'))
+              filename = f"{manifest['name']}-{manifest['version']}.crosspoint-wallpaper.zip"
+              with zipfile.ZipFile(Path('dist') / filename) as archive:
+                  assert archive.testzip() is None, "damaged ZIP"
+                  expected = {pack.name + '/' + name for name in manifest['files']}
+                  assert set(archive.namelist()) == expected, "ZIP contains files outside a single pack"
+          PY
