@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.1 — Multiple collection contract
+
+- Add collection ID to each package manifest, allowing multiple independent wallpaper collections per GitHub repository and more than one variant for each resolution.
+- Package identities and target resolutions are unchanged.
+
 ## 0.1.0 — Initial local multi-pack collection
 
 - Publish one Star Wars/Mandalorian collection with two **independent** packages:

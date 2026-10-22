@@ -67,7 +67,7 @@ def validate_one(root: Path):
     check(manifest_path.is_file() and not manifest_path.is_symlink(), "missing safe manifest")
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     required = {"kind", "name", "title", "author", "version", "images", "files"}
-    optional = {"target_resolution"}
+    optional = {"target_resolution", "collection"}
     check(isinstance(manifest, dict) and required.issubset(manifest) and
           set(manifest).issubset(required | optional), "invalid manifest keys")
     pack_id = root.name[:-len(SUFFIX)]
@@ -78,6 +78,10 @@ def validate_one(root: Path):
               "invalid " + key)
     check(VERSION_RE.fullmatch(manifest["version"]) is not None,
           "version must be semantic major.minor.patch")
+    collection = manifest.get("collection")
+    if collection is not None:
+        check(isinstance(collection, str) and ID_RE.fullmatch(collection) is not None,
+              "invalid collection identity")
     resolution = manifest.get("target_resolution")
     if resolution is not None:
         check(isinstance(resolution, dict) and set(resolution) == {"width", "height"} and
@@ -113,6 +117,8 @@ def validate_one(root: Path):
             "images": len(images), "bytes": total}
     if resolution is not None:
         info["target_resolution"] = resolution
+    if collection is not None:
+        info["collection"] = collection
     return info
 
 
@@ -126,13 +132,13 @@ def validate(root: Path, tag: str | None = None):
     if tag is not None:
         check(tag == "v" + version,
               f"release tag {tag!r} must equal v{version}")
-    resolutions = [entry.get("target_resolution") for entry in validated]
     if len(validated) > 1:
-        check(all(r is not None for r in resolutions),
-              "multi-pack repository requires target_resolution for each collection")
-        sizes = [(r["width"], r["height"]) for r in resolutions]
-        check(len(set(sizes)) == len(sizes),
-              "each variant must have a distinct target_resolution")
+        check(all("target_resolution" in e and "collection" in e for e in validated),
+              "multi-pack repository requires collection and target_resolution for every package")
+        identities = [(e["collection"], e["target_resolution"]["width"],
+                       e["target_resolution"]["height"]) for e in validated]
+        check(len(set(identities)) == len(identities),
+              "duplicate collection and target_resolution variant")
     if len(validated) == 1:
         return validated[0]
     return {"version": version, "packs": validated,

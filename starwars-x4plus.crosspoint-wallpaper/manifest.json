@@ -3,7 +3,7 @@
   "name": "starwars-x4plus",
   "title": "Star Wars Wallpaper Collection (X4+)",
   "author": "Jadehawk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "images": [
     "wallpapers/2023-the-mandalorian-season-3-7h-720x1280.bmp",
     "wallpapers/2026-star-wars-the-mandalorian-and-grogu-movie-bn-720x1280.bmp",
@@ -51,5 +51,6 @@
   "target_resolution": {
     "width": 480,
     "height": 800
-  }
+  },
+  "collection": "starwars"
 }

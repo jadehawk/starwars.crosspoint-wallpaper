@@ -4,7 +4,9 @@ A **provisional capability-based community contract**, not an upstream CrossPoin
 
 ## One repository, one or more independently installable collections
 
-A repository may publish **1–8** distinct wallpaper packs as direct-child folders.
+A repository may publish **1–8** distinct wallpaper packages as direct-child folders.
+Each package declares its artwork `collection` so independent collections can each
+have their own X3 and X4+ resolution variants.
 Each pack has its **own immutable lowercase ID**, manifest, README and BMP file list;
 the repository shares one version tag, changelog, tools, validation and release workflow.
 A GitHub Release contains **one independent ZIP asset per pack**. A device installs
@@ -44,7 +46,8 @@ or anything under the theme, plugin or legacy sleep roots.
 ~~~json
 {
   "kind": "wallpaper-pack",
-  "name": "starwars",
+  "name": "starwars-x3",
+  "collection": "starwars",
   "title": "Star Wars",
   "author": "Pack Author",
   "version": "0.1.0",
@@ -61,7 +64,8 @@ or anything under the theme, plugin or legacy sleep roots.
 - name is a stable 1–32-character lowercase ID containing only letters, digits and hyphens.
 - title is user-facing (max 60 characters); author is nonempty (max 120 characters).
 - version is semantic major.minor.patch. Every manifest in a repository must have the **same release version** matching the Git tag `v<version>`.
-- target_resolution is optional for a one-pack repository, but required for **each** pack in multi-pack repositories: `{"width": integer, "height": integer}`. These values must match the exact BMP dimensions. A multi-pack repository may not repeat the same target resolution.
+- collection is a safe lowercase ID grouping all resolution variants of one artwork collection. It is optional in a single-pack repository but **required for each package** in a multi-pack repository.
+- target_resolution is optional for a one-pack repository, but required for **each** pack in multi-pack repositories: `{"width": integer, "height": integer}`. These values must match the exact BMP dimensions. A multi-pack repository may repeat a target resolution across **different collections**, but must not repeat a `(collection, target_resolution)` pair.
 - images is the list of **1–32** BMP files **per pack**. files lists precisely the manifest, README and every BMP, once each.
 - Image paths must be directly beneath wallpapers/ with simple ASCII names and lowercase .bmp. No paths outside the collection, URLs, symlinks, executable files or nested image folders.
 - Each BMP: maximum **8 MiB** and maximum dimensions **2048×3072**. The host tool limits the installable package to 64 MiB.
