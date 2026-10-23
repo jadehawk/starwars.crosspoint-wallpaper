@@ -1,5 +1,12 @@
-# Star Wars Wallpaper Collection (X3)
+Star Wars Wallpapers
 
-Standalone BMP sleep-wallpaper collection by Jadehawk.
+19 grayscale Star Wars and Mandalorian sleep wallpapers by Jadehawk.
+Designed for 528x792 portrait displays.
 
-Install this complete folder in /.crosspoint/wallpapers/ on your SD card. Select it in Settings > Display with Custom sleep mode. Requires firmware capability wallpaper.packs.v1.
+Compatible with firmware supporting wallpaper.packs.v1.
+Install the complete wallpaper pack folder under
+/.crosspoint/wallpapers/ on the SD card.
+In Settings > Display, select Sleep Screen > Custom and choose
+this wallpaper collection.
+
+Unofficial fan collection. Not endorsed by Lucasfilm or Disney.

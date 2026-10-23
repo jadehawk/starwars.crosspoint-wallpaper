@@ -1,16 +1,20 @@
 # Star Wars Wallpaper Collection — X3 and X4+ packs
 
 Unofficial Star Wars/Mandalorian sleep-wallpaper collection. Author: Jadehawk.
-Version: **0.1.1**. This is one local source repository, with **two separately
+Version: **0.1.2**. This is one local source repository, with **two separately
 installable wallpaper packages** and **one GitHub release containing two ZIP assets**.
 The collections contain BMP images only; they are not plugins or UI themes.
+
+**Build your own pack with AI:** [AI Agent Guide](docs/AI_AGENT_GUIDE.md) | [Complete wallpaper contract](docs/WALLPAPER_PACK_CONTRACT.md) | [Plugin Hub publishing guide](https://github.com/crosspoint-reader/crosspoint-plugin-hub/blob/main/docs/BUILD_AND_PUBLISH_EXTENSIONS.md).
+
+**Firmware support:** stock upstream CrossPoint does **not** yet implement standalone SD wallpaper packs. The only established implementation currently is the development `razor-crest` branch of [Razor-Crest](https://github.com/jadehawk/Razor-Crest), gated by `wallpaper.packs.v1` capabilities rather than firmware branding.
 
 ## Choose only one download
 
 | Variant | Screen dimensions | Intended displays | ZIP asset |
 | --- | --- | --- | --- |
-| Star Wars Wallpaper Collection (X3) | 528×792 | 528×792 portrait screens | `starwars-x3-0.1.1.crosspoint-wallpaper.zip` |
-| Star Wars Wallpaper Collection (X4+) | 480×800 | 480×800 portrait screens | `starwars-x4plus-0.1.1.crosspoint-wallpaper.zip` |
+| Star Wars (528x792) | 528×792 | 528×792 portrait screens | `starwars-x3-0.1.2.crosspoint-wallpaper.zip` |
+| Star Wars (480x800) | 480×800 | 480×800 portrait screens | `starwars-x4plus-0.1.2.crosspoint-wallpaper.zip` |
 
 **Do not install both just to use the collection on one device.** Both are
 independently usable. Each includes 19 distinct images from the same batch,
@@ -36,8 +40,8 @@ and select the named collection under **Wallpaper Collection**.
 ## Build and validate both release assets
 
 ```powershell
-python tools/wallpaper_pack_tool.py validate --root . --tag v0.1.1
-python tools/wallpaper_pack_tool.py pack-all --root . --output-dir dist --tag v0.1.1
+python tools/wallpaper_pack_tool.py validate --root . --tag v0.1.2
+python tools/wallpaper_pack_tool.py pack-all --root . --output-dir dist --tag v0.1.2
 ```
 
 The release workflow verifies all manifests match the Git tag, builds two
@@ -65,10 +69,10 @@ wallpaper collections. Every variant manifest includes its authoritative
 `target_resolution`. The firmware itself can load multiple installed packs,
 but that does **not** mean a release must install them all.
 
-**Current Plugin Hub does not yet support wallpaper-asset catalog discovery or
-automatic resolution-based installation.** Implement those separately once a
-trusted display-resolution field is available. Never auto-install all assets,
-and never infer size from a firmware name.
+Capability-aware Plugin Hub catalogs publish wallpaper collections with
+resolution-specific ZIP variants. Automatic installation requires firmware with
+the extension catalog consumer. Never install every variant or infer resolution
+from a firmware name.
 
 See `docs/WALLPAPER_PACK_CONTRACT.md` for the v1 package and release rules.
 

@@ -76,6 +76,8 @@ def validate_one(root: Path):
     for key, max_len in (("title", 60), ("author", 120), ("version", 24)):
         check(isinstance(manifest[key], str) and 0 < len(manifest[key]) <= max_len,
               "invalid " + key)
+        if key in ("title", "author"):
+            check(manifest[key].isascii(), "device-facing metadata must be printable ASCII")
     check(VERSION_RE.fullmatch(manifest["version"]) is not None,
           "version must be semantic major.minor.patch")
     collection = manifest.get("collection")
@@ -98,6 +100,11 @@ def validate_one(root: Path):
           len(files) == len(set(files)), "invalid files list")
     check(set(files) == set(images) | {"manifest.json", "README.md"},
           "manifest files mismatch")
+    readme = (root / "README.md").read_bytes()
+    check(len(readme) <= 2048 and readme.isascii() and
+          all(byte >= 32 or byte in (10, 13) for byte in readme) and
+          not any(line.lstrip().startswith(("#", "*", "`")) for line in readme.decode("ascii").splitlines()),
+          "package README must be <=2 KiB printable ASCII plain text")
     total = 0
     for path in files:
         candidate = root / path

@@ -2,6 +2,8 @@
 
 A **provisional capability-based community contract**, not an upstream CrossPoint standard. A wallpaper pack is a separately versioned collection of ordinary BMP sleep images. It is **not** a UI theme, plugin, executable package, or a subtheme.
 
+**New developers and AI assistants:** follow [AI_AGENT_GUIDE.md](AI_AGENT_GUIDE.md) for a copy/paste development checklist. Plugin Hub's [build/publish guide](https://github.com/crosspoint-reader/crosspoint-plugin-hub/blob/main/docs/BUILD_AND_PUBLISH_EXTENSIONS.md) gives the discovery and GitHub Release rules. Current upstream CrossPoint does **not** implement `wallpaper.packs.v1`; only Razor-Crest development builds are known to implement the standalone BMP pack selection path. This is not an allowlist.
+
 ## One repository, one or more independently installable collections
 
 A repository may publish **1–8** distinct wallpaper packages as direct-child folders.
@@ -31,6 +33,8 @@ starwars.crosspoint-wallpaper/             ← single GitHub repository
 ├── README.md
 └── .gitignore
 ~~~
+
+The package manifest `title` is displayed directly in the installed list and Details page. Keep it concise (for example, `Star Wars (528x792)`), with dimensions rather than hardcoded firmware compatibility names. The installable package `README.md` is a **plain-text device preview**: printable ASCII, no Markdown heading markers or emoji, and ideally no more than 2 KiB. Keep longer, richly formatted instructions in the repository-root README. Do not require firmware to allocate memory for text conversion.
 
 The repository name need not equal any payload ID. For **each pack**, the installable
 folder stem, `manifest.json` `name`, SD path and catalog identity must match.
@@ -104,12 +108,7 @@ its own persistent ID. Bump every manifest version together for one repository r
 5. Each asset `<id>-0.1.0.crosspoint-wallpaper.zip` contains **only** the one matching `<id>.crosspoint-wallpaper/` directory and declared runtime files; never bundle both sizes in one ZIP.
 6. Tests, workflows, original color artwork, converters, repo changelog and developer docs are excluded from install-only ZIPs.
 
-A future Plugin Hub wallpaper catalog may discover the `crosspoint-wallpaper`
-topic, inspect **each asset/manifest separately**, expose supported packs only on
-firmware advertising `wallpaper.packs.v1`, and match `target_resolution` against
-a trusted display resolution provided by the firmware. The current `/api/status`
-does not advertise width/height; **automatic choice is not yet implemented**.
-Do not match firmware names as a workaround, and do not install both variants.
+Plugin Hub already publishes `community-wallpapers.json` and the `catalog-lists-capabilities.json` v2 index from public `crosspoint-wallpaper` repos and stable release assets. A compatible firmware consumer matches `target_resolution` to the panel's actual portrait dimensions; current Razor-Crest development builds implement this, while stock CrossPoint does not. `/api/status` advertises `wallpaper.packs.v1` capabilities, not display width/height. Never match a firmware name instead or download both variants.
 
 ## Create a new repository and additional variants
 

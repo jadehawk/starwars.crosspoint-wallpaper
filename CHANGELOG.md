@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.2 — Device-friendly collection titles and READMEs (unreleased)
+
+- Shorten the X3 and X4+ package titles to display their actual portrait resolutions.
+- Replace the installable READMEs with concise ASCII text, without emoji or Markdown markers.
+- Keep all BMP artwork and stable package/collection identifiers unchanged.
+
 ## 0.1.1 — Multiple collection contract
 
 - Add collection ID to each package manifest, allowing multiple independent wallpaper collections per GitHub repository and more than one variant for each resolution.
