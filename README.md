@@ -1,7 +1,7 @@
 # Star Wars Wallpaper Collection — X3 and X4+ packs
 
 Unofficial Star Wars/Mandalorian sleep-wallpaper collection. Author: Jadehawk.
-Version: **0.1.2**. This is one local source repository, with **two separately
+Version: **0.1.3**. This is one local source repository, with **two separately
 installable wallpaper packages** and **one GitHub release containing two ZIP assets**.
 The collections contain BMP images only; they are not plugins or UI themes.
 
@@ -13,8 +13,8 @@ The collections contain BMP images only; they are not plugins or UI themes.
 
 | Variant | Screen dimensions | Intended displays | ZIP asset |
 | --- | --- | --- | --- |
-| Star Wars (528x792) | 528×792 | 528×792 portrait screens | `starwars-x3-0.1.2.crosspoint-wallpaper.zip` |
-| Star Wars (480x800) | 480×800 | 480×800 portrait screens | `starwars-x4plus-0.1.2.crosspoint-wallpaper.zip` |
+| Star Wars (528x792) | 528×792 | 528×792 portrait screens | `starwars-x3-0.1.3.crosspoint-wallpaper.zip` |
+| Star Wars (480x800) | 480×800 | 480×800 portrait screens | `starwars-x4plus-0.1.3.crosspoint-wallpaper.zip` |
 
 **Do not install both just to use the collection on one device.** Both are
 independently usable. Each includes 19 distinct images from the same batch,
@@ -40,8 +40,8 @@ and select the named collection under **Wallpaper Collection**.
 ## Build and validate both release assets
 
 ```powershell
-python tools/wallpaper_pack_tool.py validate --root . --tag v0.1.2
-python tools/wallpaper_pack_tool.py pack-all --root . --output-dir dist --tag v0.1.2
+python tools/wallpaper_pack_tool.py validate --root . --tag v0.1.3
+python tools/wallpaper_pack_tool.py pack-all --root . --output-dir dist --tag v0.1.3
 ```
 
 The release workflow verifies all manifests match the Git tag, builds two

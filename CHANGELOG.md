@@ -1,6 +1,12 @@
 # Changelog
 
-## 0.1.2 — Device-friendly collection titles and READMEs (unreleased)
+## 0.1.3 — Catalog description and details (unreleased)
+
+- Add release-tagged `DETAILS.md` for a richer Plugin Hub information page and a clear short description.
+- Keep two separately installable wallpaper variants, with all existing images, resolutions, and identifiers unchanged.
+- Keep installed package manifests minimal and compatible with existing firmware.
+
+## 0.1.2 — Device-friendly collection titles and READMEs
 
 - Shorten the X3 and X4+ package titles to display their actual portrait resolutions.
 - Replace the installable READMEs with concise ASCII text, without emoji or Markdown markers.

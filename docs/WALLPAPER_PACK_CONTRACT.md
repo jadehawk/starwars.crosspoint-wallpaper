@@ -96,6 +96,21 @@ Current development implementation:
 
 **Status:** the wallpaper collection picker and loading were verified on X3 hardware in October 2026. Stock CrossPoint and unverified forks are not automatically compatible.
 
+### Catalog description and rich details
+
+Keep a **repository-root `DETAILS.md`** with a short introductory paragraph
+and useful details (contents, compatible display sizes, installation steps,
+attribution). The capability-aware Plugin Hub reads that file at the exact
+released Git tag, extracts a short description, and publishes safe versioned
+HTML for its details screen. It falls back to the repository README when no
+`DETAILS.md` exists.
+
+Do **not** put `DETAILS.md` into wallpaper manifest `files` or add new
+`description` keys to the strict v1 wallpaper manifest: the installer
+deliberately accepts only manifest, plain-text README, and declared BMPs.
+The installed plugin list can use the short line from the package README
+without changing this on-device contract.
+
 ## Versioned GitHub publication
 
 The repository owns one shared release version, while each installable variant has
