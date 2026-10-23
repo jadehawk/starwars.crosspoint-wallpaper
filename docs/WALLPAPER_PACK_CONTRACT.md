@@ -34,7 +34,7 @@ starwars.crosspoint-wallpaper/             ← single GitHub repository
 └── .gitignore
 ~~~
 
-The package manifest `title` is displayed directly in the installed list and Details page. Keep it concise (for example, `Star Wars (528x792)`), with dimensions rather than hardcoded firmware compatibility names. The installable package `README.md` is a **plain-text device preview**: printable ASCII, no Markdown heading markers or emoji, and ideally no more than 2 KiB. Keep longer, richly formatted instructions in the repository-root README. Do not require firmware to allocate memory for text conversion.
+The package manifest `title` is displayed directly in the installed list and Details page. Keep it concise (for example, `Star Wars`) and use the same display title across resolution variants of a collection. The device selects the correct package by its `target_resolution` metadata, not by parsing a resolution or model name from the title. The installable package `README.md` is a **plain-text device preview**: printable ASCII, no Markdown heading markers or emoji, and ideally no more than 2 KiB. Keep longer, richly formatted instructions in the repository-root README. Do not require firmware to allocate memory for text conversion.
 
 The repository name need not equal any payload ID. For **each pack**, the installable
 folder stem, `manifest.json` `name`, SD path and catalog identity must match.
@@ -53,12 +53,13 @@ or anything under the theme, plugin or legacy sleep roots.
   "name": "starwars-x3",
   "collection": "starwars",
   "title": "Star Wars",
+  "description": "19 monochrome Star Wars and Mandalorian sleep wallpapers",
   "author": "Pack Author",
   "version": "0.1.0",
   "target_resolution": {"width": 528, "height": 792},
   "images": ["wallpapers/planet.bmp", "wallpapers/starfield.bmp"],
   "files": [
-    "manifest.json", "README.md",
+    "manifest.json", "README.md", "DETAILS.md",
     "wallpapers/planet.bmp", "wallpapers/starfield.bmp"
   ]
 }
@@ -70,7 +71,7 @@ or anything under the theme, plugin or legacy sleep roots.
 - version is semantic major.minor.patch. Every manifest in a repository must have the **same release version** matching the Git tag `v<version>`.
 - collection is a safe lowercase ID grouping all resolution variants of one artwork collection. It is optional in a single-pack repository but **required for each package** in a multi-pack repository.
 - target_resolution is optional for a one-pack repository, but required for **each** pack in multi-pack repositories: `{"width": integer, "height": integer}`. These values must match the exact BMP dimensions. A multi-pack repository may repeat a target resolution across **different collections**, but must not repeat a `(collection, target_resolution)` pair.
-- images is the list of **1–32** BMP files **per pack**. files lists precisely the manifest, README and every BMP, once each.
+- images is the list of **1–32** BMP files **per pack**. files lists precisely the manifest, README, packaged DETAILS.md and every BMP, once each.
 - Image paths must be directly beneath wallpapers/ with simple ASCII names and lowercase .bmp. No paths outside the collection, URLs, symlinks, executable files or nested image folders.
 - Each BMP: maximum **8 MiB** and maximum dimensions **2048×3072**. The host tool limits the installable package to 64 MiB.
 - Supported native formats: uncompressed 1-, 2-, 4-, 8-, 24- or 32-bit BMP; also supported 32-bit BI_BITFIELDS. Prefer standard uncompressed 24-bit BMP.
@@ -98,18 +99,18 @@ Current development implementation:
 
 ### Catalog description and rich details
 
-Keep a **repository-root `DETAILS.md`** with a short introductory paragraph
+Put **`DETAILS.md` inside each installable wallpaper variant**, declared in the manifest's `files`, with a short introductory paragraph
 and useful details (contents, compatible display sizes, installation steps,
 attribution). The capability-aware Plugin Hub reads that file at the exact
-released Git tag, extracts a short description, and publishes safe versioned
-HTML for its details screen. It falls back to the repository README when no
-`DETAILS.md` exists.
+released ZIP, uses the manifest's `description` as the short catalog description and publishes safe versioned
+HTML for its details screen. The catalog must reject a new package when
+the packaged `DETAILS.md` is missing or invalid.
 
-Do **not** put `DETAILS.md` into wallpaper manifest `files` or add new
-`description` keys to the strict v1 wallpaper manifest: the installer
-deliberately accepts only manifest, plain-text README, and declared BMPs.
-The installed plugin list can use the short line from the package README
-without changing this on-device contract.
+Do put `DETAILS.md` into wallpaper manifest `files` and add a concise
+`description` field to each wallpaper manifest. The updated installer
+accepts the complete declared package while retaining support for legacy packages.
+The installed plugin list displays manifest descriptions (or legacy README fallback)
+without requiring scripts, internet access or dynamic text conversion.
 
 ## Versioned GitHub publication
 

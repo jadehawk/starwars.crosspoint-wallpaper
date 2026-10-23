@@ -1,9 +1,10 @@
 {
   "kind": "wallpaper-pack",
   "name": "starwars-x4plus",
-  "title": "Star Wars (480x800)",
+  "title": "Star Wars",
+  "description": "19 monochrome Star Wars and Mandalorian sleep wallpapers for e-ink readers.",
   "author": "Jadehawk",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "images": [
     "wallpapers/2023-the-mandalorian-season-3-7h-720x1280.bmp",
     "wallpapers/2026-star-wars-the-mandalorian-and-grogu-movie-bn-720x1280.bmp",
@@ -28,6 +29,7 @@
   "files": [
     "manifest.json",
     "README.md",
+    "DETAILS.md",
     "wallpapers/2023-the-mandalorian-season-3-7h-720x1280.bmp",
     "wallpapers/2026-star-wars-the-mandalorian-and-grogu-movie-bn-720x1280.bmp",
     "wallpapers/2026-star-wars-the-mandalorian-and-grogu-screen-x-dr-720x1280.bmp",

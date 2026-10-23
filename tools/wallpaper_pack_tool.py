@@ -66,17 +66,17 @@ def validate_one(root: Path):
     manifest_path = root / "manifest.json"
     check(manifest_path.is_file() and not manifest_path.is_symlink(), "missing safe manifest")
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    required = {"kind", "name", "title", "author", "version", "images", "files"}
+    required = {"kind", "name", "title", "description", "author", "version", "images", "files"}
     optional = {"target_resolution", "collection"}
     check(isinstance(manifest, dict) and required.issubset(manifest) and
           set(manifest).issubset(required | optional), "invalid manifest keys")
     pack_id = root.name[:-len(SUFFIX)]
     check(manifest["kind"] == "wallpaper-pack" and manifest["name"] == pack_id and
           ID_RE.fullmatch(pack_id) is not None, "invalid pack identity")
-    for key, max_len in (("title", 60), ("author", 120), ("version", 24)):
+    for key, max_len in (("title", 60), ("description", 180), ("author", 120), ("version", 24)):
         check(isinstance(manifest[key], str) and 0 < len(manifest[key]) <= max_len,
               "invalid " + key)
-        if key in ("title", "author"):
+        if key in ("title", "description", "author"):
             check(manifest[key].isascii(), "device-facing metadata must be printable ASCII")
     check(VERSION_RE.fullmatch(manifest["version"]) is not None,
           "version must be semantic major.minor.patch")
@@ -96,15 +96,23 @@ def validate_one(root: Path):
           all(isinstance(p, str) and NAME_RE.fullmatch(p) for p in images),
           "unsafe or repeated image path")
     files = manifest["files"]
-    check(isinstance(files, list) and len(files) == len(images) + 2 and
+    check(isinstance(files, list) and len(files) == len(images) + 3 and
           len(files) == len(set(files)), "invalid files list")
-    check(set(files) == set(images) | {"manifest.json", "README.md"},
+    check(set(files) == set(images) | {"manifest.json", "README.md", "DETAILS.md"},
           "manifest files mismatch")
     readme = (root / "README.md").read_bytes()
     check(len(readme) <= 2048 and readme.isascii() and
           all(byte >= 32 or byte in (10, 13) for byte in readme) and
           not any(line.lstrip().startswith(("#", "*", "`")) for line in readme.decode("ascii").splitlines()),
           "package README must be <=2 KiB printable ASCII plain text")
+    details_path = root / "DETAILS.md"
+    check(details_path.is_file() and not details_path.is_symlink(), "missing safe DETAILS.md")
+    details_bytes = details_path.read_bytes()
+    check(0 < len(details_bytes) <= 12 * 1024, "DETAILS.md must be 1..12288 bytes")
+    try:
+        check(bool(details_bytes.decode("utf-8").strip()), "DETAILS.md cannot be blank")
+    except UnicodeDecodeError as exc:
+        raise PackError("DETAILS.md must be valid UTF-8") from exc
     total = 0
     for path in files:
         candidate = root / path

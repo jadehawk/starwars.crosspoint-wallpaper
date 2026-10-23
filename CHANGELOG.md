@@ -1,6 +1,13 @@
 # Changelog
 
-## 0.1.3 — Catalog description and details (unreleased)
+## 0.1.4 — Unified extension publishing contract (development only)
+
+- Display the same clean `Star Wars` title for both device resolutions; keep resolution selection in `target_resolution`.
+- Match plugin publication: a versioned manifest, tagged ZIP, short description and rich details.
+- Reject missing/invalid details at packaging time; preserve artwork and collection IDs.
+- Do not tag or release until catalog, firmware and package tests pass together.
+
+## 0.1.3 — Catalog description and details
 
 - Add release-tagged `DETAILS.md` for a richer Plugin Hub information page and a clear short description.
 - Keep two separately installable wallpaper variants, with all existing images, resolutions, and identifiers unchanged.
