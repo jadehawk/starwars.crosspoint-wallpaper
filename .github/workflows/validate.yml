@@ -17,6 +17,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Install test dependencies
+        run: python -m pip install Pillow
       - name: Validate each installable collection and host tools
         run: |
           python tools/wallpaper_pack_tool.py validate --root .
