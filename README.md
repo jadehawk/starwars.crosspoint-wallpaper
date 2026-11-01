@@ -11,13 +11,20 @@ The collections contain BMP images only; they are not plugins or UI themes.
 
 ## Wallpaper Gallery
 
-All 19 wallpaper designs are shown below using the X3 grayscale artwork. The
-X4+ pack includes the same designs, resized and cropped for its display.
+All 19 wallpaper designs are shown below using high-quality grayscale previews
+of the original artwork, center-cropped to match the X3 display. The X4+ pack
+contains the same designs, cropped and sized for its display. The previews
+retain smooth grayscale; installed wallpapers are separately dithered to native
+four-level grayscale BMPs.
 
 ![Preview gallery of all 19 Star Wars sleep wallpapers](docs/previews/starwars-gallery.png)
 
 The preview is documentation-only and is not part of either installable ZIP.
-Regenerate it after artwork changes with `python tools/generate_previews.py`.
+Regenerate it from the unchanged original artwork batch after any image changes:
+
+```powershell
+python tools/generate_previews.py --source "C:\\Users\\Admin\\Downloads\\starwars wallpaper 2"
+```
 
 ## Choose only one download
 
