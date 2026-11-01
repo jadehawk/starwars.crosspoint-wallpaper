@@ -9,6 +9,16 @@ The collections contain BMP images only; they are not plugins or UI themes.
 
 **Firmware support:** stock upstream CrossPoint does **not** yet implement standalone SD wallpaper packs. The only established implementation currently is the development `razor-crest` branch of [Razor-Crest](https://github.com/jadehawk/Razor-Crest), gated by `wallpaper.packs.v1` capabilities rather than firmware branding.
 
+## Wallpaper Gallery
+
+All 19 wallpaper designs are shown below using the X3 grayscale artwork. The
+X4+ pack includes the same designs, resized and cropped for its display.
+
+![Preview gallery of all 19 Star Wars sleep wallpapers](docs/previews/starwars-gallery.png)
+
+The preview is documentation-only and is not part of either installable ZIP.
+Regenerate it after artwork changes with `python tools/generate_previews.py`.
+
 ## Choose only one download
 
 | Variant | Screen dimensions | Intended displays | ZIP asset |
